@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AgroScan — Smart Farming Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">🌿</div>
+      <div>
+        <div class="brand-name">AgroScan</div>
+        <div class="brand-sub">Smart Farming<br>Companion</div>
+      </div>
+    </div>
+
+    <nav class="side-nav">
+      <button class="nav-item active" data-target="scan"><span>⊕</span>Scan</button>
+      <button class="nav-item" data-target="diagnosis"><span>🔍</span>Diagnosis</button>
+      <button class="nav-item" data-target="soil"><span>🌱</span>Soil Assessment</button>
+      <button class="nav-item" data-target="report"><span>📋</span>Report</button>
+      <button class="nav-item" data-target="history"><span>🕘</span>History</button>
+      <button class="nav-item" data-target="settings"><span>⚙️</span>Settings</button>
+    </nav>
+
+    <div class="sidebar-promo">
+      <div class="promo-plant">🌾</div>
+      <b>Grow smarter with AI</b>
+      <small>Scan your crop regularly to track leaf health and soil condition over the season.</small>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+
+    <div class="topbar">
+      <div>
+        <div class="eyebrow" id="pageEyebrow">AI POWERED AGRICULTURE</div>
+        <h2 id="pageTitle" style="margin:4px 0 0;font-size:22px;">Crop Scan</h2>
+      </div>
+      <div class="top-info">
+        <div class="pill" id="weatherPill">📍 Enter a location to fetch weather</div>
+        <div class="avatar">🧑‍🌾</div>
+      </div>
+    </div>
+
+    <!-- ============ SCAN ============ -->
+    <section id="scan" class="section active-section">
+      <div class="hero">
+        <div class="hero-art"></div>
+        <div class="hero-overlay">
+          <div class="eyebrow">AI POWERED AGRICULTURE</div>
+          <h1>Healthy Crops<br><span>Happier Farmers</span> 🌱</h1>
+          <p>Upload a leaf image and let AgroScan detect crop diseases,<br>check weather conditions and give expert recommendations.</p>
+          <button type="button" class="primary-btn" id="heroScanBtn">⊕ Start New Scan</button>
+          <div class="hero-badges">
+            <span><i>🌿</i><b>AI Crop Diagnosis</b><small>Accurate &amp; Reliable</small></span>
+            <span><i>🌤️</i><b>Live Weather Data</b><small>Location Based</small></span>
+            <span><i>🌱</i><b>Expert Guidance</b><small>For Better Yield</small></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="upload-panel">
+        <h2>Start a Crop Scan</h2>
+        <p>Upload a clear leaf photo and enter the area where the crop is located.</p>
+
+        <form id="scanForm" class="form-grid">
+          <div class="upload-box" id="uploadBox">
+            <input type="file" id="imageInput" accept="image/*" hidden>
+            <div id="uploadEmpty">
+              <div class="upload-icon">🌿</div>
+              <b>Choose leaf image</b>
+              <span>JPG, PNG or WEBP</span>
+            </div>
+            <img id="previewImage" alt="Selected leaf preview">
+            <div id="previewMeta" class="hidden" style="position:absolute;bottom:8px;left:8px;right:8px;background:rgba(255,255,255,.92);border-radius:8px;padding:6px 9px;font-size:11px;text-align:left;color:#35535a;">
+              <b id="previewName"></b><br><span id="previewSize"></span> · <a href="#" id="previewChange">change image</a>
+            </div>
+          </div>
+
+          <div class="scan-form">
+            <label>📍 Location
+              <input type="text" id="location" placeholder="e.g. Andheri, Mumbai" required>
+            </label>
+            <label>🔊 Preferred audio language
+              <select id="language">
+                <option>English</option>
+                <option>Hindi</option>
+              </select>
+            </label>
+            <button type="submit" class="primary-btn wide" id="scanBtn">Analyze Crop with AI →</button>
+            <div class="status-line" id="scanStatus"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============ DIAGNOSIS ============ -->
+    <section id="diagnosis" class="section">
+      <div class="section-title">
+        <div>
+          <h2>AI Diagnosis Report</h2>
+          <p id="diagnosisSubtitle">Run a scan to see your crop's AI diagnosis here.</p>
+        </div>
+        <button type="button" class="secondary-btn" id="newScanBtn2">+ New scan</button>
+      </div>
+
+      <div id="diagnosisEmpty" class="placeholder-card">
+        <span>🩺</span>
+        <h2>No diagnosis yet</h2>
+        <p>Upload a leaf image from the Scan tab to generate your AI report.</p>
+      </div>
+
+      <div id="diagnosisContent" class="hidden">
+        <div class="dashboard-grid">
+
+          <div class="card leaf-card">
+            <h3>🌿 Scanned Leaf</h3>
+            <div class="leaf-frame"><img id="reportImage" alt="Scanned leaf"></div>
+            <div class="file-row"><span id="reportFile"></span><span id="reportLoc"></span></div>
+          </div>
+
+          <div class="card ai-card">
+            <h3>🤖 AI Identification</h3>
+            <span class="label">CROP IDENTIFIED</span>
+            <strong id="crop">—</strong>
+            <span class="label">DISEASE / CONDITION</span>
+            <strong id="disease">—</strong>
+            <span class="label confidence">AI confidence · <b id="confidence">—</b></span>
+            <div class="confidence-track"><span id="confidenceBar"></span></div>
+            <div class="meta">Trained MobileNetV3 <em id="classesBadge">14 classes</em></div>
+          </div>
+
+          <div class="card severity-card">
+            <h3>🎯 Disease Severity</h3>
+            <div class="gauge">
+              <div class="gauge-arc"></div>
+              <div class="gauge-needle" id="gaugeNeedle"></div>
+              <div class="gauge-value"><b id="sevScore">0</b><small>/100</small></div>
+              <div class="gauge-scale"><span>LOW</span><span>MODERATE</span><span>HIGH</span></div>
+            </div>
+            <span class="severity-badge" id="severityBadge">—</span>
+            <p id="sevText"></p>
+          </div>
+
+          <div class="card weather-card">
+            <h3>🌦️ Local Weather &amp; Risk</h3>
+            <small id="matchedLocation"></small>
+            <div class="weather-stats">
+              <div><b id="temp">—</b><small>Temp</small></div>
+              <div><b id="hum">—</b><small>Humidity</small></div>
+              <div><b id="rain">—</b><small>Rain %</small></div>
+              <div><b id="condition">—</b><small>Condition</small></div>
+            </div>
+            <div class="risk-box">
+              <span>⚠️</span>
+              <div><b id="riskLevel">—</b><p id="riskMsg"></p></div>
+              <span class="risk-art">🌦️</span>
+            </div>
+            <div class="coordinates"><span id="coords">—</span><span id="elevation"></span></div>
+          </div>
+
+          <div class="card info-card symptoms-card">
+            <h3>🔬 Symptoms Detected</h3>
+            <ul id="symptoms"></ul>
+          </div>
+
+          <div class="card info-card stage-card">
+            <h3>📈 Assessment<em id="stage">—</em></h3>
+            <p><b>Affected area:</b> <span id="affected">—</span></p>
+            <p><b>Treatment window:</b> <span id="treatment">—</span></p>
+          </div>
+
+          <div class="card info-card">
+            <h3>🗂️ Scan Details</h3>
+            <p><b>File:</b> <span id="metaFile">—</span></p>
+            <p><b>Location entered:</b> <span id="metaLocation">—</span></p>
+            <p><b>Scanned:</b> <span id="metaTime">—</span></p>
+          </div>
+
+          <div class="card actions-card">
+            <h3>🌱 Recommended Actions</h3>
+            <div class="action-list" id="actions"></div>
+          </div>
+
+        </div>
+
+        <div class="audio-controls" style="margin-top:14px">
+          <button type="button" class="audio-btn" id="voiceEn">🔊 Listen · English</button>
+          <button type="button" class="audio-btn" id="voiceHi">🔊 सुनें · हिन्दी</button>
+          <button type="button" class="stop-btn" id="voiceStop">⏹ Stop</button>
+        </div>
+
+        <div class="next-soil">
+          <div><b>Want a soil assessment too?</b> Combine it with this diagnosis for a complete report.</div>
+          <button type="button" class="primary-btn" id="goSoilBtn">Assess My Soil →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SOIL ASSESSMENT ============ -->
+    <section id="soil" class="section">
+      <div class="section-title">
+        <div>
+          <h2>Soil Assessment</h2>
+          <p>Answer four quick questions about your field — no soil meter or lab reading needed.</p>
+        </div>
+      </div>
+
+      <div class="soil-banner">
+        <div>
+          <span>🧪</span>
+          <div><b>Understand your soil</b><small>Choose the option that best matches what you observe.</small></div>
+        </div>
+      </div>
+
+      <form id="soilForm">
+        <div class="soil-questions">
+          <div class="question">
+            <b>1. How does the soil feel when you touch it?</b>
+            <label><input type="radio" name="soil_moisture" value="very_dry" required> 🏜️ Very dry — dry and dusty</label>
+            <label><input type="radio" name="soil_moisture" value="normal"> 🌱 Normal — moist but not wet</label>
+            <label><input type="radio" name="soil_moisture" value="very_wet"> 💦 Very wet — water stays in soil</label>
+          </div>
+          <div class="question">
+            <b>2. After watering, how quickly does water drain away?</b>
+            <label><input type="radio" name="drainage" value="quick" required> ⚡ Quickly — disappears fast</label>
+            <label><input type="radio" name="drainage" value="normal"> 🌿 Normally — balanced drainage</label>
+            <label><input type="radio" name="drainage" value="slow"> 🐌 Slowly — water remains for long</label>
+          </div>
+          <div class="question">
+            <b>3. How often do you usually water the plants?</b>
+            <label><input type="radio" name="watering_frequency" value="rarely" required> ☀️ Rarely — only when needed</label>
+            <label><input type="radio" name="watering_frequency" value="once_or_twice"> 🚿 Once or twice a week</label>
+            <label><input type="radio" name="watering_frequency" value="frequently"> 💧 Frequently — almost every day</label>
+            <label><input type="radio" name="watering_frequency" value="depends_on_weather"> 🌦️ Depends on weather</label>
+          </div>
+          <div class="question">
+            <b>4. How is the plant growing overall?</b>
+            <label><input type="radio" name="plant_growth" value="healthy" required> 🌿 Healthy growth — strong and normal</label>
+            <label><input type="radio" name="plant_growth" value="sometimes_poor"> 🍂 Sometimes poor — occasional problems</label>
+            <label><input type="radio" name="plant_growth" value="poor"> 🥀 Poor growth — weak or slow</label>
+          </div>
+        </div>
+
+        <button type="submit" class="primary-btn soil-submit" id="soilSubmitBtn">Generate Soil Assessment ✓</button>
+        <div class="status-line" id="soilStatus" style="text-align:center"></div>
+      </form>
+
+      <div id="soilResult" class="soil-result hidden">
+        <div class="soil-score">
+          <div class="soil-gauge"><div class="soil-ring" id="soilRing"><b id="soilScoreNum">0</b><small>/100</small></div></div>
+          <h2 id="soilCondition">—</h2>
+          <p id="soilExplanation">—</p>
+        </div>
+        <div class="soil-recommendations">
+          <h3>🌱 Soil Recommendations</h3>
+          <ul id="soilAdvice"></ul>
+          <button type="button" class="secondary-btn" id="retakeSoilBtn" style="margin-top:10px">↺ Retake assessment</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REPORT ============ -->
+    <section id="report" class="section">
+      <div class="section-title">
+        <div>
+          <h2>Complete Report</h2>
+          <p>Your combined crop diagnosis and soil assessment.</p>
+        </div>
+      </div>
+
+      <div id="reportEmpty" class="placeholder-card">
+        <span>📋</span>
+        <h2>No report yet</h2>
+        <p>Complete a crop scan (and optionally a soil assessment) to see your full report here.</p>
+      </div>
+
+      <div id="finalReport" class="final-report hidden">
+        <div class="report-head">
+          <div><span>Crop</span><b id="finalCrop">—</b></div>
+          <div><span>Condition</span><b id="finalDisease">—</b></div>
+          <div><span>Severity</span><b id="finalSeverity">—</b></div>
+        </div>
+
+        <div class="report-two">
+          <div class="report-block">
+            <h3>🌦️ Weather summary</h3>
+            <p id="finalWeather">—</p>
+          </div>
+          <div class="report-block">
+            <h3>🧪 Soil summary</h3>
+            <p id="finalSoil">Soil not assessed yet. <a href="#" id="finalSoilLink">Assess soil →</a></p>
+          </div>
+        </div>
+
+        <div class="report-block">
+          <h3>🌱 Recommended actions</h3>
+          <ul id="finalActions"></ul>
+        </div>
+
+        <div class="audio-controls" style="margin-top:14px">
+          <button type="button" class="audio-btn" id="voiceFullEn">🔊 Full report · English</button>
+          <button type="button" class="audio-btn" id="voiceFullHi">🔊 पूरी रिपोर्ट · हिन्दी</button>
+          <button type="button" class="stop-btn" id="voiceFullStop">⏹ Stop</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ HISTORY ============ -->
+    <section id="history" class="section">
+      <div class="section-title">
+        <div>
+          <h2>Scan History</h2>
+          <p>Scans you've run during this session, most recent first.</p>
+        </div>
+      </div>
+      <div id="historyEmpty" class="placeholder-card">
+        <span>🕘</span>
+        <h2>No scans yet</h2>
+        <p>Every crop you analyze this session will appear here so you can revisit it.</p>
+      </div>
+      <div id="historyList" class="history-grid hidden"></div>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section id="settings" class="section">
+      <div class="section-title">
+        <div>
+          <h2>Settings</h2>
+          <p>Personalize your AgroScan experience.</p>
+        </div>
+      </div>
+      <div class="upload-panel">
+        <h2>Preferences</h2>
+        <p>These are saved in this browser so you don't have to set them again next time.</p>
+        <div class="form-grid" style="grid-template-columns:1fr 1fr">
+          <label style="display:block;font-weight:700;font-size:13px;color:#35535a">Default audio language
+            <select id="defaultLanguage" style="margin-top:7px;width:100%;border:1px solid #dce7e1;border-radius:9px;padding:12px">
+              <option>English</option>
+              <option>Hindi</option>
+            </select>
+          </label>
+          <label style="display:block;font-weight:700;font-size:13px;color:#35535a">API base URL
+            <input type="text" id="apiBaseInput" style="margin-top:7px;width:100%;border:1px solid #dce7e1;border-radius:9px;padding:12px" value="http://127.0.0.1:8000">
+          </label>
+        </div>
+        <button type="button" class="primary-btn" id="saveSettingsBtn" style="margin-top:16px">Save settings</button>
+        <div class="status-line" id="settingsStatus"></div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script src="script.js?v=2"></script>
+</body>
+</html>
